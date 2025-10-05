@@ -1,0 +1,2 @@
+export function stripAccents(input: string): string { return input.normalize('NFD').replace(/\p{Diacritic}/gu,'') }
+export function normalize(input: string): string { return stripAccents(input).toLowerCase().replace(/[^a-z\s]/g,' ').replace(/\s+/g,' ').trim() }

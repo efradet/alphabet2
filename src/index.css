@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes blinkGreen { 0%,100%{ box-shadow:0 0 0 0 rgba(16,185,129,0)} 40%{ box-shadow:0 0 0 8px rgba(16,185,129,0.6)} }
+.blink-green{ animation:blinkGreen .8s ease-in-out 1 }

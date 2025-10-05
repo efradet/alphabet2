@@ -1,0 +1,28 @@
+{
+  "name": "alphabet-voice-game-react-redux",
+  "private": true,
+  "version": "0.0.2",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.10",
+    "tslib": "^2.6.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.0"
+  }
+}
