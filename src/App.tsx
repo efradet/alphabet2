@@ -5,6 +5,7 @@ import ProgressBar from './components/ProgressBar'
 import AttemptsList from './components/AttemptsList'
 import VoiceControls from './components/VoiceControls'
 import LiveHeard from './components/LiveHeard'
+import LetterGrid from './components/LetterGrid'
 import { createSpeechRecognizer } from './utils/recognition'
 import { handleTimeout, onFinalTranscript, onInterimTranscript, selectFinished, selectVoice, setSupport, setTimeLeft, tick } from './redux/voiceGameSlice'
 
@@ -40,32 +41,44 @@ export default function App(){
 
   useEffect(()=>{ if(voice.target && voice.timeLeft<=0) dispatch(handleTimeout()) }, [voice.timeLeft, voice.target, dispatch])
 
-  const infoText = useMemo(()=> finished ? '🎉 Bravo ! Toutes les lettres ont été reconnues.' : (!voice.target ? 'Clique sur Commencer puis dis la lettre affichée.' : 'Dis la lettre à voix haute (ex: « bé », « dé », « i grec »)…'), [finished, voice.target])
+  const infoText = useMemo(()=> finished ? '🎉 Bravo ! Tu as trouvé toutes les lettres !' : (!voice.target ? 'Appuie sur le bouton rose pour commencer !' : 'Dis la lettre bien fort ! 🗣️'), [finished, voice.target])
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-slate-100 text-slate-800">
-      <div className="mx-auto max-w-5xl px-4 py-6 md:py-10">
-        <header className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div className="min-h-screen w-full bg-pattern text-slate-800 font-sans">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
+        <header className="mb-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between bg-white p-6 rounded-3xl shadow-lg border-4 border-sky-100">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Jeu des lettres — dire à haute voix</h1>
-            <p className="text-sm text-slate-600">30s par lettre. Barre verte (0–20s), rouge (25–30s). Le jeu s'arrête quand toutes les lettres sont reconnues.</p>
-            {voice.support === 'unsupported' && <p className="mt-1 text-xs text-rose-600">La reconnaissance vocale n'est pas supportée. Essaie Chrome desktop.</p>}
+            <h1 className="text-3xl md:text-4xl font-black text-sky-600 tracking-tight mb-2">Joue avec les lettres ! 🎨</h1>
+            <p className="text-base text-sky-400 font-medium">Apprends l'alphabet en t'amusant !</p>
+            {voice.support === 'unsupported' && <p className="mt-2 text-sm font-bold text-rose-500 bg-rose-50 p-2 rounded-xl">Oups ! Ton navigateur ne peut pas nous entendre. 🎤</p>}
           </div>
           <VoiceControls />
         </header>
 
-        <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4 md:p-5 shadow-sm flex items-center justify-between">
-          <p className="text-sm text-slate-700">{infoText}</p>
-          <div className="text-sm text-slate-500">Temps restant : <span className="font-semibold">{voice.target ? voice.timeLeft : 0}s</span></div>
+        <div className="mb-6 rounded-3xl border-4 border-yellow-200 bg-yellow-50 p-5 md:p-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-lg md:text-xl font-bold text-yellow-700 text-center md:text-left">{infoText}</p>
+          {voice.target && (
+            <div className="bg-white px-4 py-2 rounded-2xl shadow-sm text-yellow-600 font-bold border-2 border-yellow-100">
+              Chrono : <span>{voice.timeLeft}s</span>
+            </div>
+          )}
         </div>
 
         <LiveHeard />
 
-        <div className="mb-5"><ProgressBar total={voice.total} left={voice.target ? voice.timeLeft : voice.total} /></div>
-        <div className="mb-5"><BigLetter letter={voice.target} blinkOk={voice.lastBlinkOk} /></div>
+        <div className="mb-8"><ProgressBar total={voice.total} left={voice.target ? voice.timeLeft : voice.total} /></div>
+
+        <div className="mb-8 max-w-2xl mx-auto">
+          <BigLetter letter={voice.target} blinkOk={voice.lastBlinkOk} />
+        </div>
+
+        <LetterGrid />
+
         <AttemptsList />
 
-        <footer className="mt-6 text-xs text-slate-500">Astuce : dis les noms des lettres en français (ex. « bé », « cé », « double vé », « i grec »).</footer>
+        <footer className="mt-10 text-center text-sm font-medium text-sky-300">
+          Fait avec ❤️ pour les enfants
+        </footer>
       </div>
     </div>
   )
